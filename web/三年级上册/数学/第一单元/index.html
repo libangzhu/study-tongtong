@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>三年级上册 · 数学 · 第一单元</title>
+<style>
+  :root {
+    --desk: #e6d8c2;
+    --paper: #fffaf2;
+    --ink: #241c16;
+    --muted: #6f6256;
+    --red: #d23b3b;
+    --green: #1d7a46;
+    --blue: #2a6f97;
+    --gold: #e2a21a;
+    --orange: #ef8a34;
+    --line: #f0e2cc;
+    --soft: #fff4e0;
+    --shadow: 0 16px 40px rgba(70, 46, 20, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Songti SC", sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 12% 8%, rgba(255,255,255,.45), transparent 28%),
+      linear-gradient(180deg, #f3e7d2, var(--desk));
+    min-height: 100%;
+  }
+  button, input { font-family: inherit; }
+  .app {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 22px 18px 40px;
+  }
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-end;
+    margin-bottom: 14px;
+  }
+  .crumb { margin: 0 0 4px; font-size: 14px; }
+  .crumb a { color: var(--red); font-weight: 700; text-decoration: none; }
+  .level-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .level-nav button {
+    border: 0; background: #efe4d2; color: var(--ink);
+    border-radius: 999px; padding: 8px 12px; font: inherit; font-size: 14px; cursor: pointer;
+  }
+  .level-nav button:disabled { opacity: .4; cursor: default; }
+  .level-nav kbd {
+    font-family: inherit; font-size: 12px;
+    border: 1px solid #ddcbb3; border-radius: 6px; padding: 0 5px; margin-left: 4px;
+  }
+  header.top h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 0.02em;
+  }
+  header.top .dots { display: none; }
+  header.top p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+  .book {
+    background: var(--paper);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    min-height: 680px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  .book::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 18px;
+    background: repeating-linear-gradient(
+      180deg,
+      #e25a52 0 10px,
+      #c8443c 10px 12px
+    );
+  }
+  .nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 16px 22px 8px 36px;
+  }
+  .nav button {
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    border-radius: 999px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .nav button.on {
+    background: #241c16;
+    color: #fffaf2;
+  }
+  .spread {
+    display: grid;
+    grid-template-columns: 1.35fr 0.85fr;
+    gap: 8px;
+    padding: 6px 22px 12px 36px;
+    min-height: 460px;
+  }
+  .stage-wrap { min-width: 0; }
+  .stage {
+    position: relative;
+    background:
+      linear-gradient(#f7efe2, #f7efe2) 0 0 / 100% 28px,
+      repeating-linear-gradient(180deg, transparent 0 27px, rgba(226,90,82,.18) 27px 28px);
+    background-color: #fffdf8;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    min-height: 440px;
+    overflow: auto;
+  }
+  .scene { position: relative; min-height: 440px; }
+  .say {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .kicker {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--red);
+    font-weight: 700;
+  }
+  .say h2 { margin: 0; font-size: 22px; line-height: 1.35; }
+  .ask {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .bubble {
+    background: var(--soft);
+    border-radius: 12px;
+    padding: 12px 14px;
+    line-height: 1.65;
+    font-size: 17px;
+    min-height: 92px;
+  }
+  .formula {
+    font-variant-numeric: tabular-nums;
+    font-weight: 750;
+    font-size: 22px;
+    color: var(--blue);
+    min-height: 32px;
+  }
+  .formula .bad { color: var(--red); text-decoration: line-through; font-weight: 650; font-size: 16px; margin-right: 8px; }
+  .tag {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    vertical-align: 2px;
+  }
+  .tag.ok { background: #e5f6eb; color: var(--green); }
+  .tag.fix { background: #fde8e6; color: var(--red); }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 22px 18px 36px;
+  }
+  .controls button, .ghost {
+    border: 0;
+    background: var(--ink);
+    color: white;
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .controls button.secondary, .ghost.secondary {
+    background: #efe4d2;
+    color: var(--ink);
+  }
+  .controls button:disabled { opacity: .35; cursor: default; }
+  .steps { margin-left: auto; color: var(--muted); font-size: 14px; }
+  .dots { display: flex; gap: 6px; }
+  .dots i {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #e4d5bf; display: block;
+  }
+  .dots i.on { background: var(--red); }
+
+  .scene .bit { display: none; }
+  .scene .bit.on { display: block; }
+  .scene .bit.on.slider-row,
+  .scene .bit.on.match { display: flex; }
+  .abs { position: absolute; }
+  .fade.on { animation: rise .45s ease; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* shared drawings */
+  svg.ill { width: 100%; height: 440px; display: block; }
+  .fruit {
+    position: absolute;
+    width: 14px; height: 14px;
+    margin-left: -7px; margin-top: -7px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffd0c8, #e15a48 62%, #b9362c);
+    left: var(--bx); top: var(--by);
+    transition: left .7s cubic-bezier(.2,.7,.2,1), top .7s cubic-bezier(.2,.7,.2,1);
+    box-shadow: inset -2px -2px 0 rgba(0,0,0,.08);
+    z-index: 2;
+  }
+  .basket {
+    position: absolute;
+    left: 24%; right: 24%; top: 28px; height: 168px;
+    background: #f3d7a4;
+    clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+    display: flex; justify-content: center; align-items: flex-start;
+    padding-top: 10px; font-size: 26px; font-weight: 800;
+  }
+  .dish {
+    position: absolute; top: 318px; width: 21%; height: 34px;
+    border: 3px solid #241c16; border-radius: 0 0 46px 46px;
+    background: #fff;
+  }
+  .dish .plate-label {
+    position: absolute; left: 0; right: 0; top: 36px;
+    text-align: center; color: var(--green);
+  }
+  .scene[data-step="1"] .fruit,
+  .scene[data-step="2"] .fruit,
+  .scene[data-step="3"] .fruit { left: var(--px); top: var(--py); }
+  .plate-label, .float-note {
+    position: absolute;
+    font-weight: 750;
+    color: var(--green);
+  }
+  .cross {
+    position: absolute;
+    color: var(--red);
+    font-weight: 800;
+    font-size: 28px;
+    transform: rotate(-8deg);
+  }
+
+  .ruler-box { padding: 28px 22px 10px; }
+  .ruler {
+    position: relative;
+    height: 92px;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: linear-gradient(#fff, #f6efe4);
+    margin-top: 70px;
+  }
+  .ruler .tick {
+    position: absolute; bottom: 0; width: 2px; background: var(--ink);
+  }
+  .ruler .tick.cm { height: 38px; width: 3px; }
+  .ruler .tick.half { height: 24px; }
+  .ruler .tick.mm { height: 12px; background: #8a7b6b; width: 1px; }
+  .ruler .num {
+    position: absolute; top: 8px; transform: translateX(-50%);
+    font-size: 13px; font-weight: 700;
+  }
+  .pen-line {
+    position: absolute;
+    left: 0; bottom: 42px;
+    height: 8px;
+    background: #2a6f97;
+    border-radius: 8px;
+    width: 0;
+    z-index: 2;
+  }
+  .mark-57 {
+    position: absolute; bottom: 0; width: 0; height: 0;
+    border-left: 6px solid transparent; border-right: 6px solid transparent;
+    border-bottom: 9px solid var(--red);
+    transform: translateX(-6px);
+    left: calc(57 / 80 * 100%);
+  }
+  .slider-row { margin-top: 54px; display: flex; align-items: center; gap: 12px; }
+  input[type="range"] { flex: 1; accent-color: var(--blue); }
+  .readout { font-size: 22px; font-weight: 800; min-width: 148px; color: var(--blue); }
+
+  .track { position: relative; height: 100%; }
+  .lane {
+    position: absolute; left: 8%; right: 8%; height: 70px;
+  }
+  .lane .ground {
+    position: absolute; left: 0; right: 0; bottom: 8px; height: 4px; background: #e4d3b8; border-radius: 4px;
+  }
+  .mover { position: absolute; bottom: 12px; left: 0; transition: left 1.6s cubic-bezier(.16,.8,.2,1); }
+  .scene[data-step="0"] .mover { left: 0; }
+  .scene[data-step="1"] .bike, .scene[data-step="2"] .bike, .scene[data-step="3"] .bike { left: calc(48 / 170 * 78%); }
+  .scene[data-step="1"] .car, .scene[data-step="2"] .car, .scene[data-step="3"] .car { left: calc(75 / 170 * 78%); }
+  .scene[data-step="1"] .heli, .scene[data-step="2"] .heli, .scene[data-step="3"] .heli { left: 78%; }
+  .rotor { transform-origin: 48px 10px; animation: spin .45s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .match { display: flex; justify-content: space-between; padding: 24px 28px; gap: 12px; }
+  .col { display: flex; flex-direction: column; gap: 18px; width: 42%; }
+  .choice, .speed {
+    border: 2px solid #eadcc6;
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px 12px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .choice.pick, .speed.pick { border-color: var(--blue); background: #eef6fb; }
+  .choice.good, .speed.good { border-color: var(--green); background: #e9f8ef; }
+  .choice.bad, .speed.bad { border-color: var(--red); background: #fdeeee; }
+
+  .stack { position: relative; height: 440px; }
+  .book-item {
+    position: absolute; left: 70px; height: 30px; width: 210px;
+    border: 2px solid #2a6f97; border-radius: 3px;
+    background: linear-gradient(90deg, #8ec3e0, #d7eef8 14%, #f7fbfe 14% 100%);
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  .scene[data-step="2"] .book-item,
+  .scene[data-step="3"] .book-item { opacity: 1; transform: translateY(0); transition: .45s ease; }
+  .mm-ruler {
+    position: absolute; right: 36px; top: 40px; bottom: 36px; width: 74px;
+    border-left: 3px solid var(--ink);
+  }
+
+  .pencil-scene { height: 440px; position: relative; }
+  .pencil {
+    position: absolute; top: 150px; height: 46px; border-radius: 6px;
+    display: flex; overflow: hidden; border: 2px solid #241c16;
+  }
+  .used { background: repeating-linear-gradient(90deg, #d9d1c6, #d9d1c6 10px, #cfc6b8 10px 12px); }
+  .left { background: linear-gradient(#ffe27a, #f0b429); }
+  .wood { width: 22px; background: linear-gradient(90deg, #f3d2a4, #c9844a); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .scene[data-step="0"] .pencil { left: 80px; width: 360px; }
+  .scene[data-step="1"] .used { width: 148px; }
+  .scene[data-step="1"] .left { width: 184px; }
+  .join .used, .join .left { transition: width .6s ease; }
+
+  .road { position: relative; height: 440px; }
+  .clock {
+    width: 140px; height: 140px;
+  }
+  .hand {
+    transform-origin: 70px 70px;
+    transition: transform 1.1s ease;
+  }
+  .scene[data-step="0"] .hour { transform: rotate(240deg); }
+  .scene[data-step="1"] .hour,
+  .scene[data-step="2"] .hour,
+  .scene[data-step="3"] .hour,
+  .scene[data-step="4"] .hour { transform: rotate(300deg); }
+
+  .car-move { transition: left 1.5s ease; }
+  .scene[data-step="0"] .car-move,
+  .scene[data-step="1"] .car-move { left: 70px; }
+  .scene[data-step="2"] .car-move,
+  .scene[data-step="3"] .car-move,
+  .scene[data-step="4"] .car-move { left: 72%; }
+
+  .sticks { position: relative; height: 250px; margin-top: 40px; }
+  .stick {
+    position: absolute; height: 28px; border-radius: 8px; top: 80px;
+    transition: left .7s ease, top .7s ease;
+  }
+  .stick.a { background: #3d8fd1; width: 40%; left: 8%; top: 86px; }
+  .stick.b { background: #ef8a34; width: 40%; left: 40%; top: 108px; }
+  .lap {
+    position: absolute; left: 40%; top: 86px; width: 8%; height: 50px;
+    background: repeating-linear-gradient(135deg, #3d8fd1 0 6px, #ef8a34 6px 12px);
+    border-radius: 6px; z-index: 2;
+    transition: opacity .4s ease;
+  }
+  .scene.apart .stick.a { left: 8%; top: 96px; }
+  .scene.apart .stick.b { left: 48%; top: 96px; }
+  .scene.apart .lap { opacity: 0; }
+
+  .loop {
+    transform-origin: 180px 150px;
+    opacity: 0;
+  }
+  .scene[data-step="1"] .loop.l1,
+  .scene[data-step="2"] .loop.l1,
+  .scene[data-step="3"] .loop.l1,
+  .scene[data-step="4"] .loop.l1 { opacity: 1; }
+  .scene[data-step="2"] .loop.l2,
+  .scene[data-step="3"] .loop.l2,
+  .scene[data-step="4"] .loop.l2,
+  .scene[data-step="2"] .loop.l3,
+  .scene[data-step="3"] .loop.l3,
+  .scene[data-step="4"] .loop.l3,
+  .scene[data-step="2"] .loop.l4,
+  .scene[data-step="3"] .loop.l4,
+  .scene[data-step="4"] .loop.l4 { opacity: 1; }
+  .scene[data-step="1"] .loop { transition: opacity .3s linear; }
+  .tail { opacity: 0; }
+  .scene[data-step="3"] .tail,
+  .scene[data-step="4"] .tail { opacity: 1; }
+
+  .cells rect { fill: #fff; stroke: #241c16; stroke-width: 2; }
+  .scene[data-step="3"] .up-cell,
+  .scene[data-step="4"] .up-cell,
+  .scene[data-step="5"] .up-cell { fill: #fff3c4; }
+  .scene[data-step="4"] .down-cell,
+  .scene[data-step="5"] .down-cell { fill: #e7f6ee; }
+  .cell-num { opacity: 0; font-weight: 800; font-size: 18px; }
+  .scene[data-step="3"] .up-num,
+  .scene[data-step="4"] .up-num,
+  .scene[data-step="5"] .up-num,
+  .scene[data-step="4"] .down-num,
+  .scene[data-step="5"] .down-num { opacity: 1; }
+
+  .sum-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 22px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+  .card b { display: block; margin-bottom: 6px; }
+  .ladder { display: flex; flex-direction: column; gap: 8px; padding: 20px 24px; }
+  .rung {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #fff; border-radius: 10px; padding: 8px 12px;
+    border: 1px solid var(--line); font-weight: 700;
+  }
+  @media (max-width: 860px) {
+    .spread { grid-template-columns: 1fr; }
+    header.top { flex-direction: column; align-items: flex-start; }
+    .stage, svg.ill, .stack, .pencil-scene, .road { min-height: 380px; height: 380px; }
+    svg.ill { height: 380px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+</head>
+<body data-home="../../../index.html" data-up="../index.html">
+<div class="app">
+  <header class="top">
+    <div>
+      <p class="crumb"><a href="../../../index.html">三年级上册</a> · <a href="../index.html">数学</a></p>
+      <h1>第一单元</h1>
+      <p>看图列式、画线段、单位换算。一步一步看，为什么要这样算。</p>
+    </div>
+    <div id="levelNav"></div>
+  </header>
+  <div class="book">
+    <nav class="nav" id="nav"></nav>
+    <div class="spread">
+      <div class="stage-wrap">
+        <div class="stage" id="stage"></div>
+      </div>
+      <aside class="say">
+        <div class="kicker" id="kicker"></div>
+        <h2 id="title"></h2>
+        <p class="ask" id="ask"></p>
+        <div class="bubble" id="bubble"></div>
+        <div class="formula" id="formula"></div>
+      </aside>
+    </div>
+    <div class="controls">
+      <button type="button" id="prev" class="secondary">上一步</button>
+      <button type="button" id="next">下一步</button>
+      <button type="button" id="auto" class="secondary">自动播放</button>
+      <div class="steps" id="stepLabel"></div>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>
+<script>
+const scenes = [];
+
+function fruitsHTML() {
+  let html = "";
+  for (let i = 0; i < 36; i++) {
+    const col = i % 6;
+    const row = Math.floor(i / 6);
+    const bx = 32 + col * 6;
+    const by = 18 + row * 4.2;
+    const plate = Math.floor(i / 9);
+    const k = i % 9;
+    const px = 14.5 + plate * 24 + (k % 3 - 1) * 4.4;
+    const py = 74 + Math.floor(k / 3) * 3.4;
+    html += `<i class="fruit" style="--bx:${bx}%;--by:${by}%;--px:${px}%;--py:${py}%"></i>`;
+  }
+  return html;
+}
+
+scenes.push({
+  id: "home",
+  nav: "开始",
+  kicker: "数学 · 第一单元",
+  title: "第一单元",
+  ask: "这一单元先放这些题。点题号开始，或按「下一步」。",
+  steps: [
+    { say: "有的题，得数碰巧对了，可是算式里写了图上没有的数。有的题，算法是对的，单位和答句要写完整。", formula: "图上有的数，才能写进算式" }
+  ],
+  stage() {
+    const items = [
+      ["22①", "36个分到4个盘"],
+      ["22②", "线段图，先求1格"],
+      ["23", "5厘米7毫米"],
+      ["24", "谁一小时走得远"],
+      ["25", "书摞到4厘米"],
+      ["26", "铅笔原来多长"],
+      ["27", "10点前能到吗"],
+      ["28", "绳子绕了4圈"],
+      ["29", "木棒重叠2厘米"]
+    ];
+    return `<div class="sum-grid">${items.map((it, i) =>
+      `<button class="card" data-jump="${i + 1}" style="text-align:left;cursor:pointer;font-size:16px"><b>第 ${it[0]} 题</b>${it[1]}</button>`
+    ).join("")}</div>`;
+  }
+});
+
+scenes.push({
+  id: "q22a",
+  nav: "22①",
+  kicker: "第22题（1） · 平均分",
+  title: "每盘放几个？",
+  ask: "篮子里有 36 个，旁边 4 个盘子。平均分，每盘放几个？",
+  mark: "fix",
+  steps: [
+    { say: "先看图上到底有哪些数：一个篮子，36个；四个空盘子。问的是每盘几个。", formula: "图上的数：36 个，4 盘" },
+    { say: "平均分，就是四个盘子一样多。36个一个一个分进去，每个盘子分到 9 个。", formula: "36 ÷ 4 = 9（个）" },
+    { say: "每盘都是 9 个。列式就写 36÷4=9（个）。单位是「个」，因为问的是放几个，不是多少元。", formula: "36 ÷ 4 = 9（个）" },
+    { say: "卷子上写成了 (72−36)÷4。图上没有 72，这是自己加出来的。得数虽然也是 9，但看图列式只能用图上的数。", formula: "<span class='bad'>(72−36)÷4</span> 36 ÷ 4 = 9（个）" }
+  ],
+  stage() {
+    return `
+      <div class="scene fruit-scene">
+        <div class="basket">36个</div>
+        ${[0,1,2,3].map(i => `<div class="dish" style="left:${4 + i * 24}%"><span class="bit plate-label" data-at="2">9个</span></div>`).join("")}
+        ${fruitsHTML()}
+        <div class="bit cross" data-at="3" style="right:18px;top:18px">图上没有 72</div>
+      </div>`;
+  }
+});
+
+scenes.push({
+  id: "q22b",
+  nav: "22②",
+  kicker: "第22题（2） · 线段图",
+  title: "先求 1 小格是多少",
+  ask: "两条线段的小格一样宽。短的 4 格标着「4个」，长的 6 格问「?元」。",
+  mark: "fix",
+  steps: [
+    { say: "先别急着抄上一题的数。看这条线自己：下面平均分成了 6 个小格。", formula: "先数格：6 格" },
+    { say: "36 是上一题篮子里的个数，这条线段上没有 36。不能写进这道题。", formula: "<span class='bad'>36÷4×6</span> 把 36 划掉" },
+    { say: "短的线段有 4 格，标着 4个，表示这 4 格一共是 4。小格一样大，每一格就是 4÷4=1。", formula: "4 ÷ 4 = 1" },
+    { say: "长的也是同样的小格，所以每一格也是 1。6 格就是 1×6=6。问号写的是元，答案是 6元。", formula: "4 ÷ 4 × 6 = 6（元）" },
+    { say: "乘和除写在一起，从左往右算：先 4÷4=1，再 1×6=6。算式的样子可以是「先除再乘」，除号前面要写这条线上的 4，不是 36。", formula: "4 ÷ 4 × 6 = 6（元）" }
+  ],
+  stage() {
+    const up = [0,1,2,3].map(i => `<rect class="up-cell" x="${80+i*70}" y="78" width="70" height="46"/>`).join("");
+    const down = [0,1,2,3,4,5].map(i => `<rect class="down-cell" x="${80+i*70}" y="230" width="70" height="46"/>`).join("");
+    const upN = [0,1,2,3].map(i => `<text class="cell-num up-num" x="${104+i*70}" y="108">1</text>`).join("");
+    const downN = [0,1,2,3,4,5].map(i => `<text class="cell-num down-num" x="${104+i*70}" y="260">1</text>`).join("");
+    return `
+      <div class="scene">
+        <svg class="ill cells" viewBox="0 0 640 440">
+          <text x="80" y="40" font-size="22" font-weight="800">4个</text>
+          <path d="M80 52 h280" stroke="#241c16" stroke-width="2" fill="none"/>
+          <path d="M220 52 v12" stroke="#241c16" stroke-width="2"/>
+          ${up}
+          <text x="250" y="176" font-size="22" font-weight="800">? 元</text>
+          <path d="M80 198 h420" stroke="#241c16" stroke-width="2" fill="none"/>
+          <path d="M290 198 v14" stroke="#241c16" stroke-width="2"/>
+          ${down}
+          ${upN}${downN}
+          <text class="bit" data-at="4" x="520" y="268" font-size="28" font-weight="800" fill="#1d7a46">6元</text>
+        </svg>
+        <div class="bit cross" data-at="1" style="left:24px;bottom:18px">36 是篮子里的，不能用</div>
+      </div>`;
+  }
+});
+
+scenes.push({
+  id: "q23",
+  nav: "23",
+  kicker: "第23题 · 画线段",
+  title: "5厘米，再加 7毫米",
+  ask: "画一条长 5厘米7毫米 的线段。尺子上，1厘米里面有 10 个小格，每小格是 1毫米。",
+  mark: "ok",
+  steps: [
+    { say: "先记住要画多长：5厘米，还要再加 7毫米。不要只画到 5厘米就停。", formula: "5厘米 7毫米" },
+    { say: "尺子上的长线是厘米。从 0 走到 5，这是 5厘米。", formula: "先找 5 厘米" },
+    { say: "每个厘米中间还有更小的格，那是毫米。从 5厘米再数 7 个小格。", formula: "5厘米 + 7毫米" },
+    { say: "笔就停在这里。5厘米7毫米 = 57毫米，因为 5厘米=50毫米，再加 7毫米。", formula: "5厘米7毫米 = 57毫米" },
+    { say: "拖动下面的铅笔，自己画到 5厘米7毫米。读数变成绿色，就画对了。", formula: "从 0 画到 5厘米7毫米" }
+  ],
+  stage() {
+    let ticks = "";
+    for (let mm = 0; mm <= 80; mm++) {
+      const left = (mm / 80) * 100;
+      const kind = mm % 10 === 0 ? "cm" : mm % 5 === 0 ? "half" : "mm";
+      ticks += `<i class="tick ${kind}" style="left:${left}%"></i>`;
+      if (mm % 10 === 0) ticks += `<span class="num" style="left:${left}%">${mm/10}</span>`;
+    }
+    return `
+      <div class="scene ruler-box">
+        <div class="ruler">
+          <div class="pen-line" id="penLine"></div>
+          <i class="mark-57 bit" data-at="2"></i>
+          ${ticks}
+        </div>
+        <div class="bit slider-row" data-at="4">
+          <input id="rulerRange" type="range" min="0" max="80" value="0" aria-label="画线段" />
+          <div class="readout" id="readout">0毫米</div>
+        </div>
+        <p class="bit" data-at="2" style="margin:18px 0 0;color:#6f6256">长线是厘米。红三角停在 5厘米7毫米。</p>
+      </div>`;
+  }
+});
+
+scenes.push({
+  id: "q24",
+  nav: "24",
+  kicker: "第24题 · 谁更快",
+  title: "一小时以后，谁走得最远？",
+  ask: "把自行车、汽车、直升机，和每小时走的路程连起来。",
+  mark: "fix",
+  steps: [
+    { say: "三个数：48千米、75千米、170千米。数字越大，一小时走得越远，也就越快。", formula: "比一比 48、75、170" },
+    { say: "让它们同时出发，跑一小时。直升机冲得最远，汽车在中间，自行车最近。", formula: "170 ＞ 75 ＞ 48" },
+    { say: "所以：直升机每小时 170 千米，汽车每小时 75 千米，自行车每小时 48 千米。", formula: "自行车 48 · 汽车 75 · 直升机 170" },
+    { say: "点左边的车，再点右边的速度，自己连一连。连对了会变绿。", formula: "最快的配最大的数" }
+  ],
+  stage() {
+    return `
+      <div class="scene" style="height:440px">
+        <div class="bit track" data-only="0">
+          ${lane(300, "自行车", "bike", bikeSVG())}
+          ${lane(180, "汽车", "car", carSVG())}
+          ${lane(60, "直升机", "heli", heliSVG())}
+        </div>
+        <div class="bit track" data-only="1">
+          ${lane(300, "自行车", "bike", bikeSVG())}
+          ${lane(180, "汽车", "car", carSVG())}
+          ${lane(60, "直升机", "heli", heliSVG())}
+          <div class="abs" style="right:6%;top:78px;font-weight:800;color:#2a6f97">170千米</div>
+          <div class="abs" style="left:46%;top:198px;font-weight:800;color:#ef8a34">75千米</div>
+          <div class="abs" style="left:28%;top:318px;font-weight:800;color:#1d7a46">48千米</div>
+        </div>
+        <div class="bit" data-at="2" data-only="2" style="padding:40px 28px;font-size:22px;line-height:2.1;font-weight:750">
+          自行车 —— 每小时 48 千米<br>
+          汽车 —— 每小时 75 千米<br>
+          直升机 —— 每小时 170 千米
+        </div>
+        <div class="bit match" data-only="3" id="matchBoard">
+          <div class="col" id="leftCol">
+            <button type="button" class="choice" data-who="bike">自行车</button>
+            <button type="button" class="choice" data-who="car">汽车</button>
+            <button type="button" class="choice" data-who="heli">直升机</button>
+          </div>
+          <div class="col" id="rightCol">
+            <button type="button" class="speed" data-spd="48">每小时 48 千米</button>
+            <button type="button" class="speed" data-spd="170">每小时 170 千米</button>
+            <button type="button" class="speed" data-spd="75">每小时 75 千米</button>
+          </div>
+        </div>
+      </div>`;
+  }
+});
+
+function lane(top, name, cls, svg) {
+  return `<div class="lane" style="top:${top-40}px">
+    <div style="position:absolute;left:-4px;top:8px;font-size:13px;color:#6f6256">${name}</div>
+    <div class="ground"></div>
+    <div class="mover ${cls}">${svg}</div>
+  </div>`;
+}
+function bikeSVG() {
+  return `<svg width="86" height="48" viewBox="0 0 86 48">
+    <circle cx="18" cy="34" r="12" fill="none" stroke="#1d7a46" stroke-width="3"/>
+    <circle cx="66" cy="34" r="12" fill="none" stroke="#1d7a46" stroke-width="3"/>
+    <path d="M18 34 L36 34 L48 16 L66 34 L48 34 L36 16" fill="none" stroke="#241c16" stroke-width="3"/>
+  </svg>`;
+}
+function carSVG() {
+  return `<svg width="96" height="48" viewBox="0 0 96 48">
+    <rect x="16" y="16" width="64" height="18" rx="5" fill="#ef8a34"/>
+    <path d="M30 16 l8-10 h24 l8 10" fill="#f6c48a"/>
+    <circle cx="30" cy="36" r="7" fill="#241c16"/>
+    <circle cx="68" cy="36" r="7" fill="#241c16"/>
+  </svg>`;
+}
+function heliSVG() {
+  return `<svg width="118" height="52" viewBox="0 0 118 52">
+    <g class="rotor"><rect x="6" y="8" width="84" height="5" rx="2" fill="#241c16"/></g>
+    <rect x="28" y="16" width="42" height="18" rx="8" fill="#2a6f97"/>
+    <rect x="66" y="22" width="30" height="5" fill="#2a6f97"/>
+    <rect x="92" y="14" width="4" height="16" fill="#241c16"/>
+    <rect x="36" y="34" width="26" height="3" rx="1" fill="#241c16"/>
+  </svg>`;
+}
+
+scenes.push({
+  id: "q25",
+  nav: "25",
+  kicker: "第25题 · 先换单位",
+  title: "书要摞到 4 厘米",
+  ask: "一本课外书厚约 8 毫米。多少本摞起来，大约是 4 厘米？",
+  mark: "ok",
+  steps: [
+    { say: "8毫米是一本的厚度，4厘米是摞起来的高度。毫米和厘米不能直接相除，要先变成同一个单位。", formula: "单位不同，先换算" },
+    { say: "1厘米 = 10毫米，所以 4厘米 = 40毫米。现在都是毫米了。", formula: "4厘米 = 40毫米" },
+    { say: "一本 8 毫米，40毫米里面有几个 8？书一本一本往上摞。", formula: "40 ÷ 8 = ?" },
+    { say: "5 本正好 40毫米，也就是大约 4厘米。答：5本。", formula: "40 ÷ 8 = 5（本）" }
+  ],
+  stage() {
+    const books = [0,1,2,3,4].map(i =>
+      `<div class="book-item" style="bottom:${70 + i*36}px;transition-delay:${i*0.12}s"></div>`
+    ).join("");
+    let marks = "";
+    for (let i = 0; i <= 5; i++) {
+      marks += `<div style="position:absolute;left:-1px;bottom:${i*36}px;width:16px;height:2px;background:#241c16"></div>`;
+      marks += `<span style="position:absolute;left:22px;bottom:${i*36-8}px;font-size:13px;font-weight:700">${i*8}毫米</span>`;
+    }
+    return `<div class="scene stack">${books}
+      <div class="bit" data-at="1" style="position:absolute;left:70px;bottom:262px;font-weight:800;color:#2a6f97">一共 40毫米 = 4厘米</div>
+      <div class="bit" data-at="3" style="position:absolute;left:300px;top:86px;font-size:28px;font-weight:800;color:#1d7a46">正好 5 本</div>
+      <div class="mm-ruler" style="bottom:70px;top:auto;height:180px">${marks}</div>
+    </div>`;
+  }
+});
+
+scenes.push({
+  id: "q26",
+  nav: "26",
+  kicker: "第26题 · 用去的还在原来里面",
+  title: "铅笔原来有多长？",
+  ask: "一枝铅笔用去 8 厘米，还剩 10 厘米。原来长多少厘米？合多少毫米？",
+  mark: "ok",
+  steps: [
+    { say: "用去的 8 厘米，和剩下的 10 厘米，合在一起就是原来的铅笔。", formula: "原来 = 用去 + 剩下" },
+    { say: "把两段拼回去：8+10=18。原来长 18 厘米。", formula: "8 + 10 = 18（厘米）" },
+    { say: "再换成毫米。尺子上，1厘米里面有 10 毫米。", formula: "1厘米 = 10毫米" },
+    { say: "18厘米里有 18 个 10毫米，所以是 180毫米。写的时候两边都要带单位：18厘米=180毫米。不能写成 18=180。", formula: "18厘米 = 180毫米" }
+  ],
+  stage() {
+    return `<div class="scene pencil-scene">
+      <div class="pencil join">
+        <div class="used" style="width:148px"></div>
+        <div class="left" style="width:184px"></div>
+        <div class="wood"></div>
+      </div>
+      <div class="bit" data-at="1" style="position:absolute;left:80px;top:210px;font-weight:800">8厘米 + 10厘米 = 18厘米</div>
+      <svg class="bit ill" data-at="2" viewBox="0 0 640 180" style="position:absolute;left:0;bottom:10px;height:180px">
+        <line x1="40" y1="80" x2="600" y2="80" stroke="#241c16" stroke-width="3"/>
+        ${Array.from({length:19}, (_,i)=>`<line x1="${40+i*30}" y1="80" x2="${40+i*30}" y2="${i%1===0?50:64}" stroke="#241c16" stroke-width="2"/>`).join("")}
+        <text x="40" y="40" font-size="14">0</text>
+        <text x="320" y="40" font-size="14">约 1 厘米里有 10 个毫米</text>
+      </svg>
+      <div class="bit" data-at="3" style="position:absolute;left:80px;top:250px;font-size:26px;font-weight:800;color:#1d7a46">18厘米 = 180毫米</div>
+    </div>`;
+  }
+});
+
+scenes.push({
+  id: "q27",
+  nav: "27",
+  kicker: "第27题 · 时间、速度、路程",
+  title: "上午 10:00 能到吗？",
+  ask: "外婆家 110 千米。汽车每小时行 60 千米。上午 8:00 出发，10:00 能到吗？",
+  mark: "ok",
+  steps: [
+    { say: "题目里的路程，是离家到外婆家 110 千米。先看从 8:00 到 10:00 有多久。", formula: "家 —— 110千米 —— 外婆家" },
+    { say: "钟从 8 点走到 10 点，过了 2 小时。10−8=2。", formula: "10时 − 8时 = 2时" },
+    { say: "汽车 1 小时行 60 千米，2 小时就是 60×2=120 千米。", formula: "60 × 2 = 120（千米）" },
+    { say: "2 小时能行 120 千米，外婆家只有 110 千米。120 比 110 大，车会开过外婆家，所以能到。", formula: "120 ＞ 110" },
+    { say: "比较做完了，还要回答问题本身。答：能。只写 120＞110，老师不知道你想说能还是不能。", formula: "答：能。" }
+  ],
+  stage() {
+    return `<div class="scene road">
+      <svg class="ill" viewBox="0 0 640 440">
+        <circle cx="90" cy="90" r="62" fill="#fff" stroke="#241c16" stroke-width="3"/>
+        ${Array.from({length:12},(_,i)=>{
+          const a = (i/12)*Math.PI*2 - Math.PI/2;
+          const x1 = 90+Math.cos(a)*48, y1 = 90+Math.sin(a)*48;
+          const x2 = 90+Math.cos(a)*56, y2 = 90+Math.sin(a)*56;
+          return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#241c16" stroke-width="2"/>`;
+        }).join("")}
+        <g class="hand hour"><line x1="90" y1="90" x2="90" y2="48" stroke="#d23b3b" stroke-width="5" stroke-linecap="round"/></g>
+        <g class="hand"><line x1="90" y1="90" x2="90" y2="36" stroke="#241c16" stroke-width="3" stroke-linecap="round"/></g>
+        <text x="170" y="80" font-size="18" font-weight="700">8:00 出发</text>
+        <text x="170" y="108" font-size="18" font-weight="700">10:00 到了吗</text>
+        <line x1="40" y1="300" x2="600" y2="300" stroke="#241c16" stroke-width="4"/>
+        <text x="36" y="276" font-size="16" font-weight="700">家</text>
+        <text x="392" y="248" font-size="16" font-weight="700">外婆家</text>
+        <text x="392" y="270" font-size="14">110千米</text>
+        <circle cx="450" cy="300" r="7" fill="#d23b3b"/>
+        <line class="bit" data-at="3" x1="450" y1="300" x2="590" y2="300" stroke="#2a6f97" stroke-width="6"/>
+        <text class="bit" data-at="2" x="470" y="210" font-size="16" fill="#2a6f97" font-weight="800">2小时能开 120千米</text>
+        <text class="bit" data-at="3" x="500" y="340" font-size="14" fill="#2a6f97">多出来的 10千米</text>
+      </svg>
+      <div class="car-move abs" style="top:250px">${carSVG()}</div>
+      <div class="bit" data-at="4" style="position:absolute;right:24px;bottom:24px;font-size:40px;font-weight:800;color:#1d7a46">能</div>
+    </div>`;
+  }
+});
+
+scenes.push({
+  id: "q28",
+  nav: "28",
+  kicker: "第28题 · 绕几圈，就有几个周长",
+  title: "绳子绕木棍",
+  ask: "木棍一周长 9 厘米。绳子绕了 4 周，还剩 4 厘米。绳子长多少分米？",
+  mark: "ok",
+  steps: [
+    { say: "绕一圈，就要用去木棍一周那么长，也就是 9 厘米。", formula: "一圈 = 9厘米" },
+    { say: "绕 4 圈，就是 4 个 9 厘米。9×4=36厘米。", formula: "9 × 4 = 36（厘米）" },
+    { say: "4 圈都绕完了，手里还剩 4 厘米没有绕上去。这段也是绳子的一部分。", formula: "还剩 4厘米" },
+    { say: "绳子全长 = 绕上去的 + 剩下的。36+4=40厘米。", formula: "36 + 4 = 40（厘米）" },
+    { say: "题目问的是分米。1分米=10厘米，40厘米里面有 4 个 10厘米，所以是 4分米。单位写汉字：40厘米=4分米。", formula: "40厘米 = 4分米" }
+  ],
+  stage() {
+    return `<div class="scene">
+      <svg class="ill" viewBox="0 0 640 440">
+        <rect x="70" y="70" width="150" height="280" rx="75" fill="#e7c39a" stroke="#241c16" stroke-width="3"/>
+        <ellipse cx="145" cy="70" rx="75" ry="22" fill="#f3ddc0" stroke="#241c16" stroke-width="3"/>
+        ${[0,1,2,3].map(i => `<ellipse class="loop l${i+1}" cx="145" cy="${130+i*48}" rx="78" ry="16" fill="none" stroke="#d23b3b" stroke-width="6"/>`).join("")}
+        <path class="tail" d="M220 274 C280 274 300 330 360 330" fill="none" stroke="#d23b3b" stroke-width="6" stroke-linecap="round"/>
+        <text class="bit" data-at="1" x="280" y="120" font-size="20" font-weight="800">9×4=36厘米</text>
+        <text class="bit" data-at="3" x="360" y="360" font-size="20" font-weight="800" fill="#d23b3b">还剩 4厘米</text>
+        <text class="bit" data-at="4" x="280" y="200" font-size="28" font-weight="800" fill="#1d7a46">40厘米 = 4分米</text>
+      </svg>
+    </div>`;
+  }
+});
+
+scenes.push({
+  id: "q29",
+  nav: "29",
+  kicker: "第29题 · 重叠的长度要加回来",
+  title: "两根木棒拉开以后有多长？",
+  ask: "两根同样长的木棒捆在一起，总长 18 厘米，重叠 2 厘米。不重叠连在一起，总长多少厘米？合多少分米？",
+  mark: "ok",
+  steps: [
+    { say: "捆在一起时，外面量到 18 厘米。中间有 2 厘米叠在一起，这一段外面只能看到一次。", formula: "捆起来：18厘米，重叠 2厘米" },
+    { say: "点「拉开」。重叠的 2 厘米会露出来。不重叠接在一起时，总长要加上这 2 厘米。", formula: "18 + 2 = 20（厘米）" },
+    { say: "20厘米换成以分米作单位。1分米=10厘米，20厘米=2分米。", formula: "20厘米 = 2分米" },
+    { say: "也可以再检查：两根一共 20 厘米，同样长，每根 20÷2=10厘米。10+10=20，和刚才一样。", formula: "答：20厘米，合2分米" }
+  ],
+  stage() {
+    return `<div class="scene" id="stickScene">
+      <div class="sticks">
+        <div class="stick a"></div>
+        <div class="stick b"></div>
+        <div class="lap"></div>
+        <div class="bit" data-only="0" style="position:absolute;left:40%;top:58px;font-weight:800;color:#d23b3b">重叠 2厘米</div>
+        <div class="bit" data-only="0" style="position:absolute;left:8%;top:168px;font-weight:800">捆起来量到 18厘米</div>
+        <div class="bit" data-at="1" style="position:absolute;left:8%;top:168px;font-size:22px;font-weight:800;color:#1d7a46">拉开后 18+2=20厘米</div>
+      </div>
+      <div style="text-align:center;margin-top:8px">
+        <button type="button" class="ghost" id="pullBtn">拉开</button>
+      </div>
+      <div class="bit" data-at="2" style="text-align:center;font-size:22px;font-weight:800;color:#2a6f97">20厘米 = 2分米</div>
+    </div>`;
+  }
+});
+
+scenes.push({
+  id: "end",
+  nav: "小结",
+  kicker: "记住这三句",
+  title: "下次写在试卷上",
+  ask: "算法对了，还要把单位和答句写完整。",
+  steps: [
+    { say: "第一，图上没有的数，不要写进算式。第二，单位不一样，先换算。第三，问「能不能、多少」，最后用一句话答。", formula: "看图 · 换单位 · 写答句" }
+  ],
+  stage() {
+    return `<div class="sum-grid" style="padding:16px">
+      <div class="card"><b>1厘米 = 10毫米</b>1分米 = 10厘米<br>1千米 = 1000米</div>
+      <div class="card"><b>22①</b>36÷4=9（个）</div>
+      <div class="card"><b>22②</b>4÷4×6=6（元）</div>
+      <div class="card"><b>23</b>5厘米7毫米 = 57毫米</div>
+      <div class="card"><b>24</b>自行车48，汽车75，直升机170</div>
+      <div class="card"><b>25</b>4厘米=40毫米，40÷8=5本</div>
+      <div class="card"><b>26</b>8+10=18厘米=180毫米</div>
+      <div class="card"><b>27</b>120＞110，能到</div>
+      <div class="card"><b>28</b>9×4+4=40厘米=4分米</div>
+      <div class="card"><b>29</b>18+2=20厘米=2分米</div>
+    </div>`;
+  }
+});
+
+const rightMatch = { bike: "48", car: "75", heli: "170" };
+let sceneIndex = 0;
+let stepIndex = 0;
+let timer = null;
+let pickWho = null;
+
+const stageEl = document.getElementById("stage");
+const navEl = document.getElementById("nav");
+const dotsEl = document.getElementById("dots");
+
+function stopAuto() {
+  if (timer) { clearInterval(timer); timer = null; }
+  document.getElementById("auto").textContent = "自动播放";
+}
+
+function renderNav() {
+  navEl.innerHTML = scenes.map((s, i) =>
+    `<button type="button" data-go="${i}" class="${i===sceneIndex?"on":""}">${s.nav}</button>`
+  ).join("");
+}
+
+function renderScene() {
+  const s = scenes[sceneIndex];
+  stageEl.innerHTML = s.stage();
+  document.getElementById("kicker").innerHTML = `${s.kicker}${s.mark ? ` <span class="tag ${s.mark}">${s.mark==="ok"?"算法可以这样写":"这里改一改"}</span>` : ""}`;
+  document.getElementById("title").textContent = s.title;
+  document.getElementById("ask").textContent = s.ask;
+  dotsEl.innerHTML = s.steps.map((_, i) => `<i class="${i===stepIndex?"on":""}"></i>`).join("");
+  applyStep();
+  renderNav();
+  const range = document.getElementById("rulerRange");
+  if (range) {
+    range.addEventListener("input", () => updateRuler(Number(range.value)));
+    updateRuler(0);
+  }
+}
+
+function applyStep() {
+  const s = scenes[sceneIndex];
+  const step = Math.max(0, Math.min(stepIndex, s.steps.length - 1));
+  stepIndex = step;
+  const root = stageEl.querySelector(".scene") || stageEl;
+  root.dataset.step = String(step);
+  root.querySelectorAll("[data-at]").forEach(el => {
+    el.classList.toggle("on", Number(el.dataset.at) <= step);
+  });
+  root.querySelectorAll("[data-only]").forEach(el => {
+    el.classList.toggle("on", Number(el.dataset.only) === step);
+  });
+  const info = s.steps[step];
+  document.getElementById("bubble").textContent = info.say;
+  document.getElementById("formula").innerHTML = info.formula || "";
+  document.getElementById("stepLabel").textContent = `第 ${step + 1} / ${s.steps.length} 步`;
+  document.getElementById("prev").disabled = sceneIndex === 0 && step === 0;
+  document.getElementById("next").textContent = (step === s.steps.length - 1) ? (sceneIndex === scenes.length - 1 ? "完成" : "下一题") : "下一步";
+  dotsEl.innerHTML = s.steps.map((_, i) => `<i class="${i===step?"on":""}"></i>`).join("");
+  const sticks = document.getElementById("stickScene");
+  if (sticks) sticks.classList.toggle("apart", step >= 1);
+  if (s.id === "q23") {
+    const line = document.getElementById("penLine");
+    const range = document.getElementById("rulerRange");
+    if (line && step === 3) {
+      line.style.width = "0";
+      requestAnimationFrame(() => { line.style.width = "71.25%"; });
+    }
+    if (line && range && step === 4 && range.value === "0") {
+      line.style.width = "0%";
+    }
+  }
+}
+
+function updateRuler(mm) {
+  const line = document.getElementById("penLine");
+  const readout = document.getElementById("readout");
+  if (!line || !readout) return;
+  line.style.width = `${(mm / 80) * 100}%`;
+  const cm = Math.floor(mm / 10);
+  const rest = mm % 10;
+  readout.textContent = rest === 0 ? `${cm}厘米` : `${cm}厘米${rest}毫米`;
+  readout.style.color = mm === 57 ? "#1d7a46" : "#2a6f97";
+  if (mm === 57) readout.textContent = "5厘米7毫米 ✓";
+}
+
+function goStep(delta) {
+  const s = scenes[sceneIndex];
+  const next = stepIndex + delta;
+  if (next >= 0 && next < s.steps.length) {
+    stepIndex = next;
+    applyStep();
+    return;
+  }
+  if (delta > 0 && sceneIndex < scenes.length - 1) {
+    sceneIndex += 1;
+    stepIndex = 0;
+    renderScene();
+  } else if (delta < 0 && sceneIndex > 0) {
+    sceneIndex -= 1;
+    stepIndex = scenes[sceneIndex].steps.length - 1;
+    renderScene();
+  }
+}
+
+document.getElementById("next").addEventListener("click", () => { stopAuto(); goStep(1); });
+document.getElementById("prev").addEventListener("click", () => { stopAuto(); goStep(-1); });
+document.getElementById("auto").addEventListener("click", () => {
+  if (timer) { stopAuto(); return; }
+  document.getElementById("auto").textContent = "暂停";
+  timer = setInterval(() => {
+    const s = scenes[sceneIndex];
+    if (stepIndex < s.steps.length - 1) goStep(1);
+    else if (sceneIndex < scenes.length - 1) goStep(1);
+    else stopAuto();
+  }, 2600);
+});
+
+document.body.addEventListener("click", (e) => {
+  const go = e.target.closest("[data-go]");
+  if (go) {
+    stopAuto();
+    sceneIndex = Number(go.dataset.go);
+    stepIndex = 0;
+    renderScene();
+    return;
+  }
+  const jump = e.target.closest("[data-jump]");
+  if (jump) {
+    stopAuto();
+    sceneIndex = Number(jump.dataset.jump);
+    stepIndex = 0;
+    renderScene();
+    return;
+  }
+  if (e.target.id === "pullBtn") {
+    document.getElementById("stickScene").classList.add("apart");
+    if (stepIndex < 1) { stepIndex = 1; applyStep(); }
+  }
+  const who = e.target.closest("[data-who]");
+  const spd = e.target.closest("[data-spd]");
+  if (who) {
+    document.querySelectorAll(".choice").forEach(n => n.classList.remove("pick"));
+    who.classList.add("pick");
+    pickWho = who.dataset.who;
+  }
+  if (spd && pickWho) {
+    const ok = rightMatch[pickWho] === spd.dataset.spd;
+    const whoBtn = document.querySelector(`.choice[data-who="${pickWho}"]`);
+    whoBtn.classList.remove("pick");
+    whoBtn.classList.add(ok ? "good" : "bad");
+    spd.classList.add(ok ? "good" : "bad");
+    if (!ok) {
+      setTimeout(() => {
+        whoBtn.classList.remove("bad");
+        spd.classList.remove("bad");
+      }, 700);
+    }
+    pickWho = null;
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const tag = (e.target && e.target.tagName || "").toLowerCase();
+  if (tag === "input" || tag === "textarea") return;
+  if (e.key === "ArrowRight") { stopAuto(); goStep(1); }
+  if (e.key === "ArrowLeft") { stopAuto(); goStep(-1); }
+});
+
+window.onLevelUp = function () {
+  if (sceneIndex > 0) {
+    stopAuto();
+    sceneIndex = 0;
+    stepIndex = 0;
+    renderScene();
+    return true;
+  }
+  stopAuto();
+  return false;
+};
+
+renderScene();
+</script>
+<script src="../../../level.js"></script>
+</body>
+</html>

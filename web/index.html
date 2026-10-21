@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>三年级上册</title>
+<link rel="stylesheet" href="catalog.css" />
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div>
+      <h1>三年级上册</h1>
+      <p class="lead">把做错的题重新梳理，一步一步看懂。</p>
+    </div>
+    <div id="levelNav"></div>
+  </header>
+  <div class="book">
+    <section class="preface">
+      <div class="preface-top">
+        <div>
+          <p class="kicker">给同同</p>
+          <h2>把做错的题，重新讲清楚</h2>
+          <p class="why">试卷上红笔改过、过程写乱、或者答句没写完的题，按原来的图再走一遍。先找图上的数，再看式子怎么列，最后把单位和答句写完整。看懂这一步，后面的题也会更容易。</p>
+        </div>
+        <a class="now" href="三年级上册/数学/第一单元/">
+          <small>现在可以看</small>
+          <strong>数学 · 第一单元</strong>
+          <span>第 22 题到第 29 题</span>
+          <span class="go">去看这一单元</span>
+        </a>
+      </div>
+      <ol class="points">
+        <li>
+          <div class="point-title"><span class="n">1</span><b>对着原题</b></div>
+          <p>图和数留在画面上，错处会标出来。</p>
+        </li>
+        <li>
+          <div class="point-title"><span class="n">2</span><b>一次只看一步</b></div>
+          <p>点「下一步」，或按左右方向键。</p>
+        </li>
+        <li>
+          <div class="point-title"><span class="n">3</span><b>自己再试一次</b></div>
+          <p>拖尺子、做配对，做对了会变绿。</p>
+        </li>
+      </ol>
+    </section>
+    <p class="hint">先选学科，再选单元。深色数字可以进入，浅色单元还没有题目。</p>
+    <div id="subjects"></div>
+  </div>
+</div>
+<script>
+const subjects = [
+  { name: "语文", units: 8, href: "三年级上册/语文/", ready: {} },
+  { name: "数学", units: 8, href: "三年级上册/数学/", ready: { 1: "三年级上册/数学/第一单元/" } },
+  { name: "英语", units: 6, href: "三年级上册/英语/", ready: {} }
+];
+
+document.getElementById("subjects").innerHTML = subjects.map(subject => {
+  const units = [];
+  for (let n = 1; n <= subject.units; n++) {
+    const href = subject.ready[n];
+    units.push(href
+      ? `<a href="${href}" aria-label="${subject.name}第${n}单元">${n}</a>`
+      : `<span aria-label="${subject.name}第${n}单元，还没有题目">${n}</span>`);
+  }
+  return `<section class="subject"><h2><a href="${subject.href}">${subject.name}</a></h2><div class="units">${units.join("")}</div></section>`;
+}).join("");
+</script>
+<script src="level.js"></script>
+</body>
+</html>

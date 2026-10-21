@@ -1,0 +1,9 @@
+services:
+  math-demo:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    image: study-tongtong:latest
+    ports:
+      - "${PORT:-8080}:80"
+    restart: unless-stopped
