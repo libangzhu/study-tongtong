@@ -172,9 +172,11 @@
   .controls {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
     padding: 8px 22px 18px 36px;
   }
+  .controls button.playing { background: var(--ink); color: #fff; }
   .controls button, .ghost {
     border: 0;
     background: var(--ink);
@@ -373,7 +375,7 @@
     display: flex; overflow: hidden; color: #fff; font-weight: 800; font-size: 15px;
     z-index: 1;
     box-shadow: inset 0 2px 0 rgba(255,255,255,.4);
-    transition: left .7s ease, top .7s ease;
+    transition: left .9s cubic-bezier(.22, .8, .28, 1), top .9s cubic-bezier(.22, .8, .28, 1);
   }
   .stick.a { background: #3d8fd1; left: 0; top: 58px; }
   .stick.b { background: #ef8a34; left: 40%; top: 154px; }
@@ -381,43 +383,60 @@
   .stick .s8 { flex: 8; }
   .stick .s2 {
     flex: 2;
-    background: rgba(210, 59, 59, .22);
+    background: rgba(210, 59, 59, .28);
     box-shadow: inset 0 0 0 3px #d23b3b;
+    font-size: 13px;
   }
-  .stick .all { display: none; }
   .overlap-col {
     position: absolute; top: 28px; height: 196px;
     left: calc(40% - 3px); width: calc(10% + 6px);
     border: 3px solid #d23b3b; border-radius: 12px;
     z-index: 3; pointer-events: none;
+    transition: opacity .45s ease .2s;
   }
-  .overlap-col span {
-    position: absolute; left: 50%; top: -6px; transform: translate(-50%, -100%);
+  .overlap-col span,
+  .kept {
+    position: absolute; left: 50%; transform: translateX(-50%);
     color: #d23b3b; font-weight: 800; font-size: 16px; white-space: nowrap;
   }
+  .overlap-col span { top: -6px; transform: translate(-50%, -100%); }
   .overlap-note {
     position: absolute; left: 45%; top: 118px; transform: translateX(-50%);
     z-index: 4; color: #d23b3b; font-weight: 800; font-size: 15px;
     white-space: nowrap; background: #fffdf8; padding: 2px 6px;
+    transition: opacity .35s ease;
+  }
+  .kept {
+    top: 74px; opacity: 0;
+    transition: opacity .4s ease .35s;
   }
   .brace {
-    position: absolute; top: 232px; height: 36px;
+    position: absolute; top: 232px; left: 0; width: 90%; height: 36px;
     border-top: 2px solid #241c16; text-align: center;
     font-weight: 800; font-size: 16px; padding-top: 8px;
+    transition: width .9s cubic-bezier(.22, .8, .28, 1), border-color .4s ease;
   }
+  .brace span {
+    position: absolute; left: 0; right: 0; top: 8px;
+    transition: opacity .35s ease;
+  }
+  .brace .t20 { opacity: 0; color: #1d7a46; }
   .brace::before, .brace::after {
     content: ""; position: absolute; top: -8px; width: 2px; height: 14px; background: #241c16;
+    transition: background .4s ease;
   }
   .brace::before { left: 0; }
   .brace::after { right: 0; }
-  .brace.b18 { left: 0; width: 90%; }
-  .brace.b20 { left: 0; width: 100%; color: #1d7a46; border-color: #1d7a46; }
-  .brace.b20::before, .brace.b20::after { background: #1d7a46; }
   .scene.apart .stick.a { left: 0; top: 106px; }
   .scene.apart .stick.b { left: 50%; top: 106px; }
-  .scene.apart .stick .s8,
-  .scene.apart .stick .s2 { display: none; }
-  .scene.apart .stick .all { display: flex; flex: 1; }
+  .scene.apart .overlap-col,
+  .scene.apart .overlap-note { opacity: 0; }
+  .scene.apart .kept { opacity: 1; }
+  .scene.apart .brace { width: 100%; border-color: #1d7a46; }
+  .scene.apart .brace::before,
+  .scene.apart .brace::after { background: #1d7a46; }
+  .scene.apart .brace .t18 { opacity: 0; }
+  .scene.apart .brace .t20 { opacity: 1; }
 
   .loop {
     transform-origin: 180px 150px;
@@ -442,17 +461,17 @@
   .scene[data-step="4"] .tail { opacity: 1; }
 
   .cells rect { fill: #fff; stroke: #241c16; stroke-width: 2; }
-  .scene[data-step="3"] .up-cell,
-  .scene[data-step="4"] .up-cell,
-  .scene[data-step="5"] .up-cell { fill: #fff3c4; }
-  .scene[data-step="4"] .down-cell,
-  .scene[data-step="5"] .down-cell { fill: #e7f6ee; }
+  .scene[data-step="1"] .up-cell,
+  .scene[data-step="2"] .up-cell,
+  .scene[data-step="3"] .up-cell { fill: #fff3c4; }
+  .scene[data-step="2"] .down-cell,
+  .scene[data-step="3"] .down-cell { fill: #e7f6ee; }
   .cell-num { opacity: 0; font-weight: 800; font-size: 18px; }
+  .scene[data-step="1"] .up-num,
+  .scene[data-step="2"] .up-num,
   .scene[data-step="3"] .up-num,
-  .scene[data-step="4"] .up-num,
-  .scene[data-step="5"] .up-num,
-  .scene[data-step="4"] .down-num,
-  .scene[data-step="5"] .down-num { opacity: 1; }
+  .scene[data-step="2"] .down-num,
+  .scene[data-step="3"] .down-num { opacity: 1; }
 
   .sum-grid {
     display: grid;
@@ -515,6 +534,7 @@
       <button type="button" id="prev" class="secondary">上一步</button>
       <button type="button" id="next">下一步</button>
       <button type="button" id="auto" class="secondary">自动播放</button>
+      <button type="button" id="loop" class="secondary">循环播放</button>
       <div class="steps" id="stepLabel"></div>
       <div class="dots" id="dots" aria-hidden="true"></div>
     </div>
@@ -572,12 +592,11 @@ scenes.push({
   kicker: "第22题（1） · 平均分",
   title: "每盘放几个？",
   ask: "篮子里有 36 个，旁边 4 个盘子。平均分，每盘放几个？",
-  mark: "fix",
+  mark: "ok",
   steps: [
     { say: "先看图上到底有哪些数：一个篮子，36个；四个空盘子。问的是每盘几个。", formula: "图上的数：36 个，4 盘" },
     { say: "平均分，就是四个盘子一样多。36个一个一个分进去，每个盘子分到 9 个。", formula: "36 ÷ 4 = 9（个）" },
-    { say: "每盘都是 9 个。列式就写 36÷4=9（个）。单位是「个」，因为问的是放几个，不是多少元。", formula: "36 ÷ 4 = 9（个）" },
-    { say: "卷子上写成了 (72−36)÷4。图上没有 72，这是自己加出来的。得数虽然也是 9，但看图列式只能用图上的数。", formula: "<span class='bad'>(72−36)÷4</span> 36 ÷ 4 = 9（个）" }
+    { say: "每盘都是 9 个。列式就写 36÷4=9（个）。单位是「个」，因为问的是放几个。", formula: "36 ÷ 4 = 9（个）" }
   ],
   stage() {
     return `
@@ -585,7 +604,6 @@ scenes.push({
         <div class="basket">36个</div>
         ${[0,1,2,3].map(i => `<div class="dish" style="left:${4 + i * 24}%"><span class="bit plate-label" data-at="2">9个</span></div>`).join("")}
         ${fruitsHTML()}
-        <div class="bit cross" data-at="3" style="right:18px;top:18px">图上没有 72</div>
       </div>`;
   }
 });
@@ -598,11 +616,10 @@ scenes.push({
   ask: "两条线段的小格一样宽。短的 4 格标着「4个」，长的 6 格问「?元」。",
   mark: "fix",
   steps: [
-    { say: "先别急着抄上一题的数。看这条线自己：下面平均分成了 6 个小格。", formula: "先数格：6 格" },
-    { say: "36 是上一题篮子里的个数，这条线段上没有 36。不能写进这道题。", formula: "<span class='bad'>36÷4×6</span> 把 36 划掉" },
+    { say: "看这条线自己：上面 4 个小格，下面 6 个小格。小格一样宽。", formula: "上面 4 格，下面 6 格" },
     { say: "短的线段有 4 格，标着 4个，表示这 4 格一共是 4。小格一样大，每一格就是 4÷4=1。", formula: "4 ÷ 4 = 1" },
-    { say: "长的也是同样的小格，所以每一格也是 1。6 格就是 1×6=6。问号写的是元，答案是 6元。", formula: "4 ÷ 4 × 6 = 6（元）" },
-    { say: "乘和除写在一起，从左往右算：先 4÷4=1，再 1×6=6。算式的样子可以是「先除再乘」，除号前面要写这条线上的 4，不是 36。", formula: "4 ÷ 4 × 6 = 6（元）" }
+    { say: "长的也是同样的小格，所以每一格也是 1。6 格就是 1×6=6。问号写的是元，答案是 6元。", formula: "1 × 6 = 6（元）" },
+    { say: "乘和除写在一起，从左往右算：先 4÷4=1，再 1×6=6。", formula: "4 ÷ 4 × 6 = 6（元）" }
   ],
   stage() {
     const up = [0,1,2,3].map(i => `<rect class="up-cell" x="${80+i*70}" y="78" width="70" height="46"/>`).join("");
@@ -621,9 +638,8 @@ scenes.push({
           <path d="M290 198 v14" stroke="#241c16" stroke-width="2"/>
           ${down}
           ${upN}${downN}
-          <text class="bit" data-at="4" x="520" y="268" font-size="28" font-weight="800" fill="#1d7a46">6元</text>
+          <text class="bit" data-at="2" x="520" y="268" font-size="28" font-weight="800" fill="#1d7a46">6元</text>
         </svg>
-        <div class="bit cross" data-at="1" style="left:24px;bottom:18px">36 是篮子里的，不能用</div>
       </div>`;
   }
 });
@@ -896,19 +912,19 @@ scenes.push({
   mark: "ok",
   steps: [
     { say: "两根木棒头尾叠在一起。红框里上下两段都是 2 厘米，捆紧后外面只能量到一次。两边各露出 8 厘米，所以外面是 8+2+8=18 厘米。", formula: "外面：8 + 2 + 8 = 18（厘米）" },
-    { say: "点「拉开」。两根接成一条，叠住的 2 厘米露出来了。总长要加上它：18+2=20 厘米。每根都是 10 厘米。", formula: "18 + 2 = 20（厘米）" },
+    { say: "点「拉开」。两根接成一条，红框里的 2 厘米还在，只是从叠着变成一前一后。总长加上这 2 厘米：18+2=20 厘米。再点「折叠」，两根又叠回去。", formula: "18 + 2 = 20（厘米）" },
     { say: "20厘米换成以分米作单位。1分米=10厘米，20厘米=2分米。", formula: "20厘米 = 2分米" },
     { say: "也可以再检查：两根一共 20 厘米，同样长，每根 20÷2=10厘米。10+10=20，和刚才一样。", formula: "答：20厘米，合2分米" }
   ],
   stage() {
     return `<div class="scene" id="stickScene">
       <div class="rods">
-        <div class="stick a"><span class="seg s8">8厘米</span><span class="seg s2">2</span><span class="seg all">10厘米</span></div>
-        <div class="stick b"><span class="seg s2">2</span><span class="seg s8">8厘米</span><span class="seg all">10厘米</span></div>
-        <div class="overlap-col bit" data-only="0"><span>重叠 2厘米</span></div>
-        <div class="overlap-note bit" data-only="0">这两段叠在一起</div>
-        <div class="brace b18 bit" data-only="0">外面量到 18厘米</div>
-        <div class="brace b20 bit" data-at="1">拉开后一共 20厘米</div>
+        <div class="stick a"><span class="seg s8">8厘米</span><span class="seg s2">2厘米</span></div>
+        <div class="stick b"><span class="seg s2">2厘米</span><span class="seg s8">8厘米</span></div>
+        <div class="overlap-col"><span>重叠 2厘米</span></div>
+        <div class="overlap-note">这两段叠在一起</div>
+        <div class="kept">这两段 2厘米还在</div>
+        <div class="brace"><span class="t18">外面量到 18厘米</span><span class="t20">拉开后一共 20厘米</span></div>
       </div>
       <div style="text-align:center;margin-top:8px">
         <button type="button" class="ghost" id="pullBtn">拉开</button>
@@ -947,6 +963,7 @@ const rightMatch = { bike: "48", car: "75", heli: "170" };
 let sceneIndex = 0;
 let stepIndex = 0;
 let timer = null;
+let playMode = null;
 let pickWho = null;
 
 const stageEl = document.getElementById("stage");
@@ -955,7 +972,45 @@ const dotsEl = document.getElementById("dots");
 
 function stopAuto() {
   if (timer) { clearInterval(timer); timer = null; }
-  document.getElementById("auto").textContent = "自动播放";
+  playMode = null;
+  const autoBtn = document.getElementById("auto");
+  const loopBtn = document.getElementById("loop");
+  if (autoBtn) autoBtn.textContent = "自动播放";
+  if (loopBtn) {
+    loopBtn.textContent = "循环播放";
+    loopBtn.classList.remove("playing");
+  }
+}
+
+function startPlay(mode) {
+  if (playMode === mode) { stopAuto(); return; }
+  stopAuto();
+  playMode = mode;
+  if (mode === "loop") {
+    const loopBtn = document.getElementById("loop");
+    loopBtn.textContent = "停止循环";
+    loopBtn.classList.add("playing");
+    if (stepIndex !== 0) {
+      stepIndex = 0;
+      applyStep();
+    }
+  } else {
+    document.getElementById("auto").textContent = "暂停";
+  }
+  timer = setInterval(() => {
+    const scene = scenes[sceneIndex];
+    if (stepIndex < scene.steps.length - 1) {
+      goStep(1);
+      return;
+    }
+    if (playMode === "loop") {
+      stepIndex = 0;
+      applyStep();
+      return;
+    }
+    if (sceneIndex < scenes.length - 1) goStep(1);
+    else stopAuto();
+  }, 2600);
 }
 
 function renderNav() {
@@ -1000,10 +1055,13 @@ function applyStep() {
   document.getElementById("next").textContent = (step === s.steps.length - 1) ? (sceneIndex === scenes.length - 1 ? "完成" : "下一题") : "下一步";
   dotsEl.innerHTML = s.steps.map((_, i) => `<i class="${i===step?"on":""}"></i>`).join("");
   const sticks = document.getElementById("stickScene");
+  const pull = document.getElementById("pullBtn");
   if (sticks) sticks.classList.toggle("apart", step >= 1);
+  if (pull) pull.textContent = step >= 1 ? "折叠" : "拉开";
   if (s.id === "q23") {
     const line = document.getElementById("penLine");
     const range = document.getElementById("rulerRange");
+    if (line && step < 3) line.style.width = "0";
     if (line && step === 3) {
       line.style.width = "0";
       requestAnimationFrame(() => { line.style.width = "71.25%"; });
@@ -1047,16 +1105,8 @@ function goStep(delta) {
 
 document.getElementById("next").addEventListener("click", () => { stopAuto(); goStep(1); });
 document.getElementById("prev").addEventListener("click", () => { stopAuto(); goStep(-1); });
-document.getElementById("auto").addEventListener("click", () => {
-  if (timer) { stopAuto(); return; }
-  document.getElementById("auto").textContent = "暂停";
-  timer = setInterval(() => {
-    const s = scenes[sceneIndex];
-    if (stepIndex < s.steps.length - 1) goStep(1);
-    else if (sceneIndex < scenes.length - 1) goStep(1);
-    else stopAuto();
-  }, 2600);
-});
+document.getElementById("auto").addEventListener("click", () => startPlay("auto"));
+document.getElementById("loop").addEventListener("click", () => startPlay("loop"));
 
 document.body.addEventListener("click", (e) => {
   const go = e.target.closest("[data-go]");
@@ -1076,8 +1126,10 @@ document.body.addEventListener("click", (e) => {
     return;
   }
   if (e.target.id === "pullBtn") {
-    document.getElementById("stickScene").classList.add("apart");
-    if (stepIndex < 1) { stepIndex = 1; applyStep(); }
+    stopAuto();
+    stepIndex = stepIndex >= 1 ? 0 : 1;
+    applyStep();
+    return;
   }
   const who = e.target.closest("[data-who]");
   const spd = e.target.closest("[data-spd]");
