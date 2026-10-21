@@ -349,11 +349,9 @@
   .join .used, .join .left { transition: width .6s ease; }
 
   .road { position: relative; height: 440px; }
-  .clock {
-    width: 140px; height: 140px;
-  }
   .hand {
-    transform-origin: 70px 70px;
+    transform-box: view-box;
+    transform-origin: 14.0625% 20.4545%;
     transition: transform 1.1s ease;
   }
   .scene[data-step="0"] .hour { transform: rotate(240deg); }
@@ -369,22 +367,57 @@
   .scene[data-step="3"] .car-move,
   .scene[data-step="4"] .car-move { left: 72%; }
 
-  .sticks { position: relative; height: 250px; margin-top: 40px; }
+  .rods { position: relative; height: 286px; margin: 18px 32px 0; }
   .stick {
-    position: absolute; height: 28px; border-radius: 8px; top: 80px;
+    position: absolute; height: 46px; width: 50%; border-radius: 12px;
+    display: flex; overflow: hidden; color: #fff; font-weight: 800; font-size: 15px;
+    z-index: 1;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.4);
     transition: left .7s ease, top .7s ease;
   }
-  .stick.a { background: #3d8fd1; width: 40%; left: 8%; top: 86px; }
-  .stick.b { background: #ef8a34; width: 40%; left: 40%; top: 108px; }
-  .lap {
-    position: absolute; left: 40%; top: 86px; width: 8%; height: 50px;
-    background: repeating-linear-gradient(135deg, #3d8fd1 0 6px, #ef8a34 6px 12px);
-    border-radius: 6px; z-index: 2;
-    transition: opacity .4s ease;
+  .stick.a { background: #3d8fd1; left: 0; top: 58px; }
+  .stick.b { background: #ef8a34; left: 40%; top: 154px; }
+  .stick .seg { display: flex; align-items: center; justify-content: center; height: 100%; white-space: nowrap; }
+  .stick .s8 { flex: 8; }
+  .stick .s2 {
+    flex: 2;
+    background: rgba(210, 59, 59, .22);
+    box-shadow: inset 0 0 0 3px #d23b3b;
   }
-  .scene.apart .stick.a { left: 8%; top: 96px; }
-  .scene.apart .stick.b { left: 48%; top: 96px; }
-  .scene.apart .lap { opacity: 0; }
+  .stick .all { display: none; }
+  .overlap-col {
+    position: absolute; top: 28px; height: 196px;
+    left: calc(40% - 3px); width: calc(10% + 6px);
+    border: 3px solid #d23b3b; border-radius: 12px;
+    z-index: 3; pointer-events: none;
+  }
+  .overlap-col span {
+    position: absolute; left: 50%; top: -6px; transform: translate(-50%, -100%);
+    color: #d23b3b; font-weight: 800; font-size: 16px; white-space: nowrap;
+  }
+  .overlap-note {
+    position: absolute; left: 45%; top: 118px; transform: translateX(-50%);
+    z-index: 4; color: #d23b3b; font-weight: 800; font-size: 15px;
+    white-space: nowrap; background: #fffdf8; padding: 2px 6px;
+  }
+  .brace {
+    position: absolute; top: 232px; height: 36px;
+    border-top: 2px solid #241c16; text-align: center;
+    font-weight: 800; font-size: 16px; padding-top: 8px;
+  }
+  .brace::before, .brace::after {
+    content: ""; position: absolute; top: -8px; width: 2px; height: 14px; background: #241c16;
+  }
+  .brace::before { left: 0; }
+  .brace::after { right: 0; }
+  .brace.b18 { left: 0; width: 90%; }
+  .brace.b20 { left: 0; width: 100%; color: #1d7a46; border-color: #1d7a46; }
+  .brace.b20::before, .brace.b20::after { background: #1d7a46; }
+  .scene.apart .stick.a { left: 0; top: 106px; }
+  .scene.apart .stick.b { left: 50%; top: 106px; }
+  .scene.apart .stick .s8,
+  .scene.apart .stick .s2 { display: none; }
+  .scene.apart .stick .all { display: flex; flex: 1; }
 
   .loop {
     transform-origin: 180px 150px;
@@ -796,13 +829,18 @@ scenes.push({
       <svg class="ill" viewBox="0 0 640 440">
         <circle cx="90" cy="90" r="62" fill="#fff" stroke="#241c16" stroke-width="3"/>
         ${Array.from({length:12},(_,i)=>{
+          const n = i === 0 ? 12 : i;
           const a = (i/12)*Math.PI*2 - Math.PI/2;
-          const x1 = 90+Math.cos(a)*48, y1 = 90+Math.sin(a)*48;
-          const x2 = 90+Math.cos(a)*56, y2 = 90+Math.sin(a)*56;
-          return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#241c16" stroke-width="2"/>`;
+          const x1 = 90+Math.cos(a)*52, y1 = 90+Math.sin(a)*52;
+          const x2 = 90+Math.cos(a)*58, y2 = 90+Math.sin(a)*58;
+          const tx = 90+Math.cos(a)*40, ty = 90+Math.sin(a)*40;
+          const mark = n === 8 || n === 10;
+          return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#241c16" stroke-width="${mark?3:2}"/>
+            <text x="${tx}" y="${ty}" text-anchor="middle" dy="0.35em" font-size="14" font-weight="800" fill="${mark?"#d23b3b":"#241c16"}">${n}</text>`;
         }).join("")}
-        <g class="hand hour"><line x1="90" y1="90" x2="90" y2="48" stroke="#d23b3b" stroke-width="5" stroke-linecap="round"/></g>
-        <g class="hand"><line x1="90" y1="90" x2="90" y2="36" stroke="#241c16" stroke-width="3" stroke-linecap="round"/></g>
+        <g class="hand hour"><line x1="90" y1="90" x2="90" y2="58" stroke="#d23b3b" stroke-width="5" stroke-linecap="round"/></g>
+        <g class="hand"><line x1="90" y1="90" x2="90" y2="46" stroke="#241c16" stroke-width="3" stroke-linecap="round"/></g>
+        <circle cx="90" cy="90" r="4" fill="#241c16"/>
         <text x="170" y="80" font-size="18" font-weight="700">8:00 出发</text>
         <text x="170" y="108" font-size="18" font-weight="700">10:00 到了吗</text>
         <line x1="40" y1="300" x2="600" y2="300" stroke="#241c16" stroke-width="4"/>
@@ -857,20 +895,20 @@ scenes.push({
   ask: "两根同样长的木棒捆在一起，总长 18 厘米，重叠 2 厘米。不重叠连在一起，总长多少厘米？合多少分米？",
   mark: "ok",
   steps: [
-    { say: "捆在一起时，外面量到 18 厘米。中间有 2 厘米叠在一起，这一段外面只能看到一次。", formula: "捆起来：18厘米，重叠 2厘米" },
-    { say: "点「拉开」。重叠的 2 厘米会露出来。不重叠接在一起时，总长要加上这 2 厘米。", formula: "18 + 2 = 20（厘米）" },
+    { say: "两根木棒头尾叠在一起。红框里上下两段都是 2 厘米，捆紧后外面只能量到一次。两边各露出 8 厘米，所以外面是 8+2+8=18 厘米。", formula: "外面：8 + 2 + 8 = 18（厘米）" },
+    { say: "点「拉开」。两根接成一条，叠住的 2 厘米露出来了。总长要加上它：18+2=20 厘米。每根都是 10 厘米。", formula: "18 + 2 = 20（厘米）" },
     { say: "20厘米换成以分米作单位。1分米=10厘米，20厘米=2分米。", formula: "20厘米 = 2分米" },
     { say: "也可以再检查：两根一共 20 厘米，同样长，每根 20÷2=10厘米。10+10=20，和刚才一样。", formula: "答：20厘米，合2分米" }
   ],
   stage() {
     return `<div class="scene" id="stickScene">
-      <div class="sticks">
-        <div class="stick a"></div>
-        <div class="stick b"></div>
-        <div class="lap"></div>
-        <div class="bit" data-only="0" style="position:absolute;left:40%;top:58px;font-weight:800;color:#d23b3b">重叠 2厘米</div>
-        <div class="bit" data-only="0" style="position:absolute;left:8%;top:168px;font-weight:800">捆起来量到 18厘米</div>
-        <div class="bit" data-at="1" style="position:absolute;left:8%;top:168px;font-size:22px;font-weight:800;color:#1d7a46">拉开后 18+2=20厘米</div>
+      <div class="rods">
+        <div class="stick a"><span class="seg s8">8厘米</span><span class="seg s2">2</span><span class="seg all">10厘米</span></div>
+        <div class="stick b"><span class="seg s2">2</span><span class="seg s8">8厘米</span><span class="seg all">10厘米</span></div>
+        <div class="overlap-col bit" data-only="0"><span>重叠 2厘米</span></div>
+        <div class="overlap-note bit" data-only="0">这两段叠在一起</div>
+        <div class="brace b18 bit" data-only="0">外面量到 18厘米</div>
+        <div class="brace b20 bit" data-at="1">拉开后一共 20厘米</div>
       </div>
       <div style="text-align:center;margin-top:8px">
         <button type="button" class="ghost" id="pullBtn">拉开</button>
